@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:portfolio_ng/src/UI/home_page.dart';
+import 'package:portfolio_ng/src/UI/HomePage/home_page.dart';
 
 void main() {
   runApp(MyApp());
