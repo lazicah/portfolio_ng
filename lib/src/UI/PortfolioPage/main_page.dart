@@ -1,14 +1,70 @@
 import 'package:flutter/cupertino.dart';
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_animator/flutter_animator.dart';
+
 
 class MainPage extends StatelessWidget {
+
+    final GlobalKey<AnimatorWidgetState> basicAnimation =
+      GlobalKey<AnimatorWidgetState>();
+
+  final GlobalKey<InOutAnimationState> inOutAnimation =
+      GlobalKey<InOutAnimationState>();
+   List<Widget> navButtons() => [
+        NavButton(
+          text: "Home",
+          onPressed: () {
+            html.window.open("https://github.com", "Pk");
+          },
+        ),
+        NavButton(
+          text: "About",
+          onPressed: () {
+            html.window.open("https://github.com", "Gh");
+          },
+        ),
+        NavButton(
+          text: "Porfolio",
+          onPressed: () {
+            html.window.open("https://github.com", "Pk");
+          },
+        ),
+        NavButton(
+          text: "Contact",
+          onPressed: () {
+            html.window.open("https://github.com", "Pk");
+          },
+        ),
+      ];
   @override
   Widget build(BuildContext context) {
+    final GlobalKey _scaffoldKey = new GlobalKey();
     var size = MediaQuery.of(context).size;
     ScreenUtil.init(context);
     return Scaffold(
+            appBar: AppBar(
+        elevation: 0,
+        leading:InkWell(
+        onTap: () => Scaffold.of(context).openDrawer(),
+        child: Padding(
+          padding: EdgeInsets.only(left: 15),
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: Image.asset('assets/images/profile.jpg'),
+          ),
+        ),
+      ),),
+      key: _scaffoldKey,
+      endDrawer: Drawer(
+        
+       child: ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: navButtons(),
+                ),
+      ),
       backgroundColor: Colors.purple,
       body: SingleChildScrollView(
         child: Column(
@@ -419,23 +475,25 @@ class TopSection extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Container(
-                  width: 200,
-                  height: size.height * 0.7,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: CircleAvatar(
-                      foregroundColor: Colors.blue,
-                      radius: size.width / 8,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(200),
-                          child: Image.asset(
-                            'assets/images/profile.jpg',
-                            fit: BoxFit.fill,
-                            width: size.width / 4.5,
-                            height: size.width / 4.5,
-                          )),
-                      backgroundColor: Colors.white,
+                child: BounceInDown(
+                                  child: Container(
+                    width: 200,
+                    height: size.height * 0.7,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: CircleAvatar(
+                        foregroundColor: Colors.blue,
+                        radius: size.width / 8,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(200),
+                            child: Image.asset(
+                              'assets/images/profile.jpg',
+                              fit: BoxFit.fill,
+                              width: size.width / 4.5,
+                              height: size.width / 4.5,
+                            )),
+                        backgroundColor: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -444,6 +502,29 @@ class TopSection extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class NavButton extends StatelessWidget {
+  final text;
+  final onPressed;
+  final Color color;
+
+  const NavButton(
+      {Key key,
+      @required this.text,
+      @required this.onPressed,
+      this.color = Colors.purple})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Text(text),
+
+      hoverColor: Colors.blueAccent,
+     onPressed: onPressed,
     );
   }
 }
